@@ -32,7 +32,8 @@ const RECENT_ACTIVITY = $("#recent-activity");
 	const userTransactions =
 		transactions.filter(
 			(transaction) =>
-				(transaction.user_id = user.id)
+				transaction.user_id === user.id ||
+				transaction.recipient_id === user.id
 		) || [];
 
 	if (!userTransactions.length) {
