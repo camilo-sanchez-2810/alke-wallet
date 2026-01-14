@@ -49,11 +49,6 @@ const RECENT_ACTIVITY = $("#recent-activity");
 			userTransactions.length
 		);
 	recentTransactions.reverse();
-	const checkType = (type) => {
-		return ["transfer_in", "deposit"].some(
-			(element) => element === type
-		);
-	};
 	recentTransactions.forEach(
 		({ type, description, amount, date }) => {
 			const transactionDate = new Date(date);

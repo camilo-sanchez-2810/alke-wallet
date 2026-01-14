@@ -72,3 +72,9 @@ function validateRegisterForm({
 		passwordConfirmValidated
 	);
 }
+
+function checkType(type) {
+	return ["transfer_in", "deposit"].some(
+		(element) => element === type
+	);
+}
