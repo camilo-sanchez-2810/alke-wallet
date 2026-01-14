@@ -49,30 +49,35 @@ const RECENT_ACTIVITY = $("#recent-activity");
 			userTransactions.length
 		);
 	recentTransactions.reverse();
-	recentTransactions.forEach((transaction) => {
-		const { type, description, amount, date } =
-			transaction;
-		const transactionDate = new Date(date);
-		const formattedDate = `${transactionDate.getDate()}/${transactionDate.getMonth()}/${transactionDate.getFullYear()}`;
+	const checkType = (type) => {
+		return ["transfer_in", "deposit"].some(
+			(element) => element === type
+		);
+	};
+	recentTransactions.forEach(
+		({ type, description, amount, date }) => {
+			const transactionDate = new Date(date);
+			const formattedDate = `${transactionDate.getDate()}/${transactionDate.getMonth()}/${transactionDate.getFullYear()}`;
 
-		const transactionItem = `
+			const transactionItem = `
       <div class="d-flex justify-content-between align-items-center">
         <div>
           <p class="fs-5 fw-bold">${description}</p>
           <p class="fs-6 text-muted">${formattedDate}</p>
         </div>
         <p class="fs-5 fw-bold ${
-					type === "deposit"
+					checkType(type)
 						? "text-success"
 						: "text-danger"
 				}">
           ${
-						type === "deposit" ? "+" : "-"
+						checkType(type) ? "+" : "-"
 					} $${amount}
         </p>
       </div>
     `;
 
-		RECENT_ACTIVITY.append(transactionItem);
-	});
+			RECENT_ACTIVITY.append(transactionItem);
+		}
+	);
 })();
