@@ -17,13 +17,13 @@
     <div class="dropdown">
       <button class="dropdown-toggle border-0 bg-transparent" type="button" data-bs-toggle="dropdown"
         aria-expanded="false">
-        usuario
+        <i class="bi bi-person"></i>
       </button>
       <ul class="dropdown-menu">
         <li>
           <p id="username" class="dropdown-item">user name</p>
         </li>
-        <li><button class="dropdown-item">Cerrar Sesión</button></li>
+        <li><button id="close-session" class="dropdown-item">Cerrar Sesión</button></li>
       </ul>
     </div>
   </header>
@@ -39,7 +39,7 @@
           aria-label="search" aria-describedby="search-button">
         <button class="btn btn-outline-secondary" type="button" id="search-button"><i class="bi bi-search"></i></button>
       </div>
-      <div id="transactions-container" class="mt-4"></div>
+      <div id="transactions-container" class="mt-4 container"></div>
     </div>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"

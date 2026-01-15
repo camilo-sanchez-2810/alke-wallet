@@ -78,3 +78,55 @@ function checkType(type) {
 		(element) => element === type
 	);
 }
+
+function getUser(html) {
+	const user = JSON.parse(
+		localStorage.getItem("currentUser")
+	);
+	html.text(user.name);
+	return user;
+}
+
+function closeSession() {
+	localStorage.removeItem("currentUser");
+	window.location.href = "../index.html";
+}
+
+function renderTransactions({
+	data = [],
+	container,
+}) {
+	if (!data.length) {
+		container.html = `<p class="fs-3 fw-bold text-center">No hay transacciones</p>`;
+		return;
+	}
+
+	data.forEach(
+		({ type, description, amount, date }) => {
+			const transactionDate = new Date(date);
+			const formattedDate = `${transactionDate.getDate()}/${
+				transactionDate.getMonth() + 1
+			}/${transactionDate.getFullYear()}`;
+
+			const transactionItem = `
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <p class="fs-5 fw-bold">${description}</p>
+          <p class="fs-6 text-muted">${formattedDate}</p>
+        </div>
+        <p class="fs-5 fw-bold ${
+					checkType(type)
+						? "text-success"
+						: "text-danger"
+				}">
+          ${
+						checkType(type) ? "+" : "-"
+					} $${amount}
+        </p>
+      </div>
+    `;
+
+			container.append(transactionItem);
+		}
+	);
+}

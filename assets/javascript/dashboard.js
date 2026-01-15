@@ -1,5 +1,6 @@
 const RECENT_ACTIVITY = $("#recent-activity");
-
+const USERNAME_CONTAINER = $("#username");
+const CLOSE_SESSION_BUTTON = $("#close-session");
 /*
   TRANSACTION OBJECT
   {
@@ -14,13 +15,13 @@ const RECENT_ACTIVITY = $("#recent-activity");
 */
 
 (() => {
+	CLOSE_SESSION_BUTTON.click(closeSession);
+
 	const transactions = JSON.parse(
 		localStorage.getItem("transactions")
 	);
 
-	const user = JSON.parse(
-		localStorage.getItem("currentUser")
-	);
+	const user = getUser(USERNAME_CONTAINER);
 
 	if (!transactions.length) {
 		RECENT_ACTIVITY.html(`
@@ -31,9 +32,7 @@ const RECENT_ACTIVITY = $("#recent-activity");
 
 	const userTransactions =
 		transactions.filter(
-			(transaction) =>
-				transaction.user_id === user.id ||
-				transaction.recipient_id === user.id
+			({ user_id }) => user_id === user.id
 		) || [];
 
 	if (!userTransactions.length) {
@@ -49,30 +48,8 @@ const RECENT_ACTIVITY = $("#recent-activity");
 			userTransactions.length
 		);
 	recentTransactions.reverse();
-	recentTransactions.forEach(
-		({ type, description, amount, date }) => {
-			const transactionDate = new Date(date);
-			const formattedDate = `${transactionDate.getDate()}/${transactionDate.getMonth()}/${transactionDate.getFullYear()}`;
-
-			const transactionItem = `
-      <div class="d-flex justify-content-between align-items-center">
-        <div>
-          <p class="fs-5 fw-bold">${description}</p>
-          <p class="fs-6 text-muted">${formattedDate}</p>
-        </div>
-        <p class="fs-5 fw-bold ${
-					checkType(type)
-						? "text-success"
-						: "text-danger"
-				}">
-          ${
-						checkType(type) ? "+" : "-"
-					} $${amount}
-        </p>
-      </div>
-    `;
-
-			RECENT_ACTIVITY.append(transactionItem);
-		}
-	);
+	renderTransactions({
+		data: recentTransactions,
+		container: RECENT_ACTIVITY,
+	});
 })();

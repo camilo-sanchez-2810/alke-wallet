@@ -3,61 +3,33 @@ const TRANSACTIONS_CONTAINER = $(
 );
 const SEARCH_INPUT = $("#search");
 const SEARCH_BUTTON = $("#search-button");
+const USERNAME_CONTAINER = $("#username");
+const CLOSE_SESSION_BUTTON = $("#close-session");
 
 (() => {
+	CLOSE_SESSION_BUTTON.click(closeSession);
 	const transactions =
 		JSON.parse(
 			localStorage.getItem("transactions")
 		) || [];
 
-	const user = JSON.parse(
-		localStorage.getItem("currentUser")
-	);
+	const user = getUser(USERNAME_CONTAINER);
 
 	if (!transactions.length) {
-		TRANSACTIONS_CONTAINER.html = `<p class="fs-5 fw-bold text-center">No hay transacciones</p>`;
+		TRANSACTIONS_CONTAINER.html = `<p class="fs-3 fw-bold text-center">No hay transacciones</p>`;
 		return;
 	}
 
 	let userTransactions = transactions.filter(
-		({ user_id, recipient_id }) =>
-			user_id === user.id ||
-			recipient_id === user.id
+		({ user_id }) => user_id === user.id
 	);
 
-	if (!userTransactions.length) {
-		TRANSACTIONS_CONTAINER.html = `<p class="fs-5 fw-bold text-center">No hay transacciones</p>`;
-		return;
-	}
+	console.log(userTransactions);
 
-	userTransactions.forEach(
-		({ type, description, amount, date }) => {
-			const transactionDate = new Date(date);
-			const formattedDate = `${transactionDate.getDate()}/${transactionDate.getMonth()}/${transactionDate.getFullYear()}`;
-
-			const transactionItem = `
-      <div class="d-flex justify-content-between align-items-center">
-        <div>
-          <p class="fs-5 fw-bold">${description}</p>
-          <p class="fs-6 text-muted">${formattedDate}</p>
-        </div>
-        <p class="fs-5 fw-bold ${
-					checkType(type)
-						? "text-success"
-						: "text-danger"
-				}">
-          ${
-						checkType(type) ? "+" : "-"
-					} $${amount}
-        </p>
-      </div>
-    `;
-
-			TRANSACTIONS_CONTAINER.append(
-				transactionItem
-			);
-		}
-	);
+	renderTransactions({
+		data: userTransactions.reverse(),
+		container: TRANSACTIONS_CONTAINER,
+	});
 
 	// SEARCH_BUTTON.click(function () {
 	// 	const searchValue = SEARCH_INPUT.val()

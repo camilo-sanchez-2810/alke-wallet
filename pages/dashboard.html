@@ -7,6 +7,7 @@
   <title>Alke Wallet - Inicio</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
   <script src="../assets/javascript/data.js"></script>
 </head>
 
@@ -16,13 +17,13 @@
     <div class="dropdown">
       <button class="dropdown-toggle border-0 bg-transparent" type="button" data-bs-toggle="dropdown"
         aria-expanded="false">
-        usuario
+        <i class="bi bi-person"></i>
       </button>
       <ul class="dropdown-menu">
         <li>
           <p id="username" class="dropdown-item">user name</p>
         </li>
-        <li><button class="dropdown-item">Cerrar Sesión</button></li>
+        <li><button id="close-session" class="dropdown-item">Cerrar Sesión</button></li>
       </ul>
     </div>
   </header>
@@ -43,7 +44,7 @@
         <h3 class="fw-bold">Actividad Reciente</h3>
         <a class="text-dark fw-bold text-decoration-none" href="./history.html">Ver historial -></a>
       </div>
-      <div id="recent-activity" class="mt-3"></div>
+      <div id="recent-activity" class="mt-3 container"></div>
     </section>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
