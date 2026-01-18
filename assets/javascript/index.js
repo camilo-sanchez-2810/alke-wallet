@@ -6,56 +6,80 @@ const PASSWORD_HELP_BLOCK = $(
 	"#passwordHelpBlock"
 );
 
+const authenticateUser = (email, password) => {
+	const users =
+		JSON.parse(localStorage.getItem("users")) ||
+		[];
+	return users.find(
+		(user) =>
+			user.email === email &&
+			user.password === password
+	);
+};
+
+const hideErrors = () => {
+	EMAIL_HELP_BLOCK.addClass("visually-hidden");
+	PASSWORD_HELP_BLOCK.addClass("visually-hidden");
+};
+
+const redirectToDashboard = (user) => {
+	localStorage.setItem(
+		"currentUser",
+		JSON.stringify(user)
+	);
+	alert("Bienvenido " + user.name);
+	window.location.href = "./pages/dashboard.html";
+};
+
 LOGIN_FORM.on("submit", function (e) {
 	e.preventDefault();
+	hideErrors();
+
 	const email = EMAIL_INPUT.val().trim();
 	const password = PASSWORD_INPUT.val().trim();
-	if (
-		validateRegex({
-			str: email,
-			regex: EMAIL_REGEX,
-			html: EMAIL_HELP_BLOCK,
-			error_msg: "Email inválido",
-			classname: "visually-hidden",
-		}) &&
-		validateRegex({
-			str: password,
-			regex: PASSWORD_REGEX,
-			html: PASSWORD_HELP_BLOCK,
-			error_msg: "Contraseña inválida",
-			classname: "visually-hidden",
-		})
-	) {
-		const users = JSON.parse(
-			localStorage.getItem("users")
+
+	const isEmailValid = validateRegex({
+		str: email,
+		regex: EMAIL_REGEX,
+		html: EMAIL_HELP_BLOCK,
+		error_msg: "Email inválido",
+		classname: "visually-hidden",
+	});
+
+	const isPasswordValid = validateRegex({
+		str: password,
+		regex: PASSWORD_REGEX,
+		html: PASSWORD_HELP_BLOCK,
+		error_msg: "Contraseña inválida",
+		classname: "visually-hidden",
+	});
+
+	if (!isEmailValid || !isPasswordValid) return;
+
+	const user = authenticateUser(email, password);
+
+	if (user) {
+		redirectToDashboard(user);
+	} else {
+		const users =
+			JSON.parse(localStorage.getItem("users")) ||
+			[];
+		const emailExists = users.some(
+			(u) => u.email === email
 		);
-		const user = users.find(
-			(user) => user.email === email
-		);
-		if (user) {
-			if (user.password === password) {
-				localStorage.setItem(
-					"currentUser",
-					JSON.stringify(user)
-				);
-				alert("Bienvenido " + user.name);
-				window.location.href =
-					"./pages/dashboard.html";
-			} else {
-				PASSWORD_HELP_BLOCK.removeClass(
-					"visually-hidden"
-				);
-				PASSWORD_HELP_BLOCK.text(
-					"Contraseña incorrecta"
-				);
-			}
+
+		if (emailExists) {
+			showError({
+				html: PASSWORD_HELP_BLOCK,
+				msg: "Contraseña incorrecta",
+				classname: "visually-hidden",
+			});
 		} else {
-			EMAIL_HElP_BLOCK.removeClass(
-				"visually-hidden"
-			);
-			EMAIL_HElP_BLOCK.text(
-				"Usuario no registrado"
-			);
+			showError({
+				html: EMAIL_HELP_BLOCK,
+				msg: "Usuario no registrado",
+				classname: "visually-hidden",
+			});
 		}
 	}
 });
