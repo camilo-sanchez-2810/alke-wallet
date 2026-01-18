@@ -1,12 +1,17 @@
 const EMAIL_REGEX = new RegExp(
-	/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+	/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
 );
 const PASSWORD_REGEX = new RegExp(
-	/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/
+	/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/,
 );
 const NAME_REGEX = new RegExp(
-	/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{2,30}$/
+	/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{2,30}$/,
 );
+
+function showError({ html, msg, classname }) {
+	html.removeClass(classname);
+	html.text(msg);
+}
 
 function validateRegex({
 	str,
@@ -16,8 +21,11 @@ function validateRegex({
 	classname,
 }) {
 	if (!regex.test(str)) {
-		html.removeClass(classname);
-		html.text(error_msg);
+		showError({
+			html,
+			msg: error_msg,
+			classname,
+		});
 		return false;
 	}
 	html.addClass(classname);
@@ -73,15 +81,21 @@ function validateRegisterForm({
 	);
 }
 
+function showNoActivity(container) {
+	container.html(
+		`<p class="fs-3 fw-bold text-center">No hay actividad reciente</p>`,
+	);
+}
+
 function checkType(type) {
 	return ["transfer_in", "deposit"].some(
-		(element) => element === type
+		(element) => element === type,
 	);
 }
 
 function getUser(html) {
 	const user = JSON.parse(
-		localStorage.getItem("currentUser")
+		localStorage.getItem("currentUser"),
 	);
 	html.text(user.name);
 	return user;
@@ -97,9 +111,11 @@ function renderTransactions({
 	container,
 }) {
 	if (!data.length) {
-		container.html = `<p class="fs-3 fw-bold text-center">No hay transacciones</p>`;
+		showNoActivity(container);
 		return;
 	}
+
+	container.empty();
 
 	data.forEach(
 		({ type, description, amount, date }) => {
@@ -127,6 +143,6 @@ function renderTransactions({
     `;
 
 			container.append(transactionItem);
-		}
+		},
 	);
 }

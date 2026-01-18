@@ -14,16 +14,73 @@ const PASSWORD_CONFIRM_HELP_BLOCK = $(
 	"#passwordConfirmHelpBlock"
 );
 
+const checkPasswordMatch = (
+	password,
+	passwordConfirm
+) => {
+	if (password !== passwordConfirm) {
+		showError({
+			html: PASSWORD_CONFIRM_HELP_BLOCK,
+			msg: "Las contraseñas no coinciden",
+			classname: "visually-hidden",
+		});
+		return false;
+	}
+	return true;
+};
+
+const checkEmailExists = (email, users) => {
+	if (
+		users.find((user) => user.email === email)
+	) {
+		showError({
+			html: EMAIL_HELP_BLOCK,
+			msg: "El email ya está registrado",
+			classname: "visually-hidden",
+		});
+		return true;
+	}
+	return false;
+};
+
+const createUser = (name, email, password) => {
+	const users =
+		JSON.parse(localStorage.getItem("users")) ||
+		[];
+	const currentId =
+		parseInt(localStorage.getItem("currentId")) ||
+		1;
+
+	users.push({
+		id: currentId,
+		name,
+		email,
+		password,
+	});
+	localStorage.setItem(
+		"users",
+		JSON.stringify(users)
+	);
+	localStorage.setItem(
+		"currentId",
+		currentId + 1
+	);
+
+	alert("Usuario registrado con éxito");
+	window.location.href = "../index.html";
+};
+
 REGISTER_FORM.on("submit", function (e) {
 	e.preventDefault();
-	const name = NAME_INPUT.val();
-	const email = EMAIL_INPUT.val();
-	const password = PASSWORD_INPUT.val();
+
+	const name = NAME_INPUT.val().trim();
+	const email = EMAIL_INPUT.val().trim();
+	const password = PASSWORD_INPUT.val().trim();
 	const passwordConfirm =
-		PASSWORD_CONFIRM_INPUT.val();
+		PASSWORD_CONFIRM_INPUT.val().trim();
 
 	if (
-		validateRegisterForm({
+		!validateRegisterForm({
 			name,
 			email,
 			password,
@@ -34,51 +91,21 @@ REGISTER_FORM.on("submit", function (e) {
 			passwordConfirmHelpBlock:
 				PASSWORD_CONFIRM_HELP_BLOCK,
 		})
-	) {
-		if (password !== passwordConfirm) {
-			console.log(password, passwordConfirm);
-			PASSWORD_CONFIRM_HELP_BLOCK.removeClass(
-				"visually-hidden"
-			);
-			PASSWORD_CONFIRM_HELP_BLOCK.text(
-				"Las contraseñas no coinciden"
-			);
-			return;
-		}
-		const users =
-			JSON.parse(localStorage.getItem("users")) ||
-			[];
-		const user = users.find(
-			(user) => user.email === email
-		);
-		if (user) {
-			EMAIL_HELP_BLOCK.removeClass(
-				"visually-hidden"
-			);
-			EMAIL_HELP_BLOCK.text(
-				"El email ya está registrado"
-			);
-			return;
-		}
+	)
+		return;
 
-		const currentId =
-			localStorage.getItem("currentId");
+	const users =
+		JSON.parse(localStorage.getItem("users")) ||
+		[];
 
-		users.push({
-			id: parseInt(currentId),
-			name,
-			email,
+	if (
+		!checkPasswordMatch(
 			password,
-		});
-		localStorage.setItem(
-			"users",
-			JSON.stringify(users)
-		);
-		localStorage.setItem(
-			"currentId",
-			parseInt(currentId) + 1
-		);
-		alert("Usuario registrado con éxito");
-		window.location.href = "../index.html";
-	}
+			passwordConfirm
+		) ||
+		checkEmailExists(email, users)
+	)
+		return;
+
+	createUser(name, email, password);
 });
