@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alke Wallet - Inicio</title>
+  <title>Alke Wallet - Historial de Transacciones</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
@@ -27,25 +27,26 @@
       </ul>
     </div>
   </header>
-  <main class="container mt-4">
-    <section class="container bg-dark py-4 rounded-4">
-      <div class="d-flex flex-column align-items-center gap-3">
-        <h4 class="fw-bold m-0 text-light fs-2">Estado de la cuenta:</h4>
-        <p class="fw-bold m-0 text-light fs-4">$300.000</p>
+  <main class="container mt-5">
+    <h1 class="text-center fw-bold">Realizar Nueva transferencia</h1>
+    <form id="transfer" class="container">
+      <div class="mt-4">
+        <label for="email" class="form-label">Email del Usuario</label>
+        <input type="email" name="email" id="email" class="form-control" placeholder="Ej: john.doe@mail.com">
       </div>
-      <div class="d-flex justify-content-evenly mt-3">
-        <a class="text-decoration-none text-light" href="./deposit.html">Depositar</a>
-        <div class="border border-1"></div>
-        <a class="text-decoration-none text-light" href="./sendmoney.html">Transferir</a>
+      <div class="mt-4">
+        <label for="description" class="form-label">Descripción</label>
+        <input type="text" name="description" id="description" class="form-control" placeholder="Ej: Deposito inicial">
       </div>
-    </section>
-    <section class="container-fluid mt-5">
-      <div class="d-flex justify-content-between align-items-center">
-        <h3 class="fw-bold">Actividad Reciente</h3>
-        <a class="text-dark fw-bold text-decoration-none" href="./history.html">Ver historial -></a>
+      <div class="mt-4">
+        <label for="amount" class="form-label">Saldo a Transferir</label>
+        <input type="number" name="amount" id="amount" class="form-control" placeholder="00.00">
       </div>
-      <div id="recent-activity" class="mt-3 container"></div>
-    </section>
+      <div class="d-grid gap-3 col-6 mx-auto mt-4">
+        <button class="btn btn-dark" type="submit">Transferir</button>
+        <a class="btn btn-dark" href="./dashboard.html">Cancelar</a>
+      </div>
+    </form>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
@@ -53,7 +54,7 @@
   <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
     integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
   <script src="../assets/javascript/utils.js"></script>
-  <script src="../assets/javascript/dashboard.js"></script>
+  <script src="../assets/javascript/sendmoney.js"></script>
 </body>
 
 </html>

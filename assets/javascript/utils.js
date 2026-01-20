@@ -106,6 +106,12 @@ function closeSession() {
 	window.location.href = "../index.html";
 }
 
+const getNextTransactionId = (transactions) => {
+	return transactions.length
+		? transactions[transactions.length - 1].id + 1
+		: 1;
+};
+
 function renderTransactions({
 	data = [],
 	container,
