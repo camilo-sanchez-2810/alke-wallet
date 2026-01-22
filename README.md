@@ -27,10 +27,6 @@ Este proyecto fue desarrollado para el bootcamp **Talento Digital**, utilizando 
 
 ---
 
-## Estructura del Proyecto
-
-El proyecto está organizado de manera modular para facilitar el mantenimiento:
-
 ## Ejecución del Proyecto
 
 Sigue estos pasos para visualizar y probar la aplicación en tu entorno local:
