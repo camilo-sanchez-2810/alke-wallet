@@ -11,40 +11,67 @@
   <script src="../assets/javascript/data.js"></script>
 </head>
 
-<body>
-  <header class="container d-flex justify-content-between py-2 align-items-center">
-    <h3 class="m-0 fw-bold">Alke Wallet</h3>
-    <div class="dropdown">
-      <button class="dropdown-toggle border-0 bg-transparent" type="button" data-bs-toggle="dropdown"
-        aria-expanded="false">
-        <i class="bi bi-person"></i>
-      </button>
-      <ul class="dropdown-menu">
-        <li>
-          <p id="username" class="dropdown-item">user name</p>
-        </li>
-        <li><button id="close-session" class="dropdown-item">Cerrar Sesión</button></li>
-      </ul>
+<body class="bg-light">
+  <header class="bg-white shadow-sm sticky-top">
+    <div class="container d-flex justify-content-between py-3 align-items-center">
+      <h3 class="m-0 fw-bold fs-4">Alke Wallet</h3>
+      <div class="dropdown">
+        <button class="btn btn-light dropdown-toggle rounded-circle p-2" type="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          <i class="bi bi-person fs-5"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end shadow">
+          <li>
+            <p id="username" class="dropdown-item text-muted mb-0">user name</p>
+          </li>
+          <li><hr class="dropdown-divider"></li>
+          <li><button id="close-session" class="dropdown-item text-danger">
+            <i class="bi bi-box-arrow-right me-2"></i>Cerrar Sesión
+          </button></li>
+        </ul>
+      </div>
     </div>
   </header>
-  <main class="container mt-4">
-    <section class="container bg-dark py-4 rounded-4">
-      <div class="d-flex flex-column align-items-center gap-3">
-        <h4 class="fw-bold m-0 text-light fs-2">Estado de la cuenta:</h4>
-        <p class="fw-bold m-0 text-light fs-4">$300.000</p>
-      </div>
-      <div class="d-flex justify-content-evenly mt-3">
-        <a class="text-decoration-none text-light" href="./deposit.html">Depositar</a>
-        <div class="border border-1"></div>
-        <a class="text-decoration-none text-light" href="./sendmoney.html">Transferir</a>
+  <main class="container py-4">
+    <section class="row justify-content-center mb-4">
+      <div class="col-12 col-md-10 col-lg-8">
+        <div class="card bg-dark text-white border-0 rounded-4 shadow-lg">
+          <div class="card-body p-4 p-md-5">
+            <div class="text-center mb-4">
+              <h4 class="fw-bold mb-3 fs-3">Estado de la cuenta</h4>
+              <p class="fw-bold mb-0 display-4">$300.000</p>
+              <small class="text-white-50">Saldo disponible</small>
+            </div>
+            <div class="row g-3 mt-3">
+              <div class="col-6">
+                <a class="btn btn-light w-100 rounded-3 py-3 text-decoration-none fw-semibold" href="./deposit.html">
+                  <i class="bi bi-plus-circle me-2"></i>Depositar
+                </a>
+              </div>
+              <div class="col-6">
+                <a class="btn btn-outline-light w-100 rounded-3 py-3 text-decoration-none fw-semibold" href="./sendmoney.html">
+                  <i class="bi bi-arrow-right-circle me-2"></i>Transferir
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
-    <section class="container-fluid mt-5">
-      <div class="d-flex justify-content-between align-items-center">
-        <h3 class="fw-bold">Actividad Reciente</h3>
-        <a class="text-dark fw-bold text-decoration-none" href="./history.html">Ver historial -></a>
+    <section class="row justify-content-center">
+      <div class="col-12 col-md-10 col-lg-8">
+        <div class="card border-0 rounded-4 shadow-sm">
+          <div class="card-body p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h3 class="fw-bold mb-0 fs-4">Actividad Reciente</h3>
+              <a class="text-dark fw-semibold text-decoration-none d-flex align-items-center" href="./history.html">
+                Ver historial <i class="bi bi-arrow-right ms-2"></i>
+              </a>
+            </div>
+            <div id="recent-activity" class="mt-3"></div>
+          </div>
+        </div>
       </div>
-      <div id="recent-activity" class="mt-3 container"></div>
     </section>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
